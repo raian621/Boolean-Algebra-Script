@@ -37,7 +37,20 @@ python boolean-algebra.py ?[option] ?[expression-1] ??[expression-2]
 -M   # generate shorthand maxterm expansion
 -h   # print helper text
 ```
-**Example: generate truth table for expression `A+B^C`**
+**Example: generate truth table for boolean expression `A+B^C`**
 ```
 $ python boolean-algebra.py -t "A+B^C"
+
+Expression: A+B^C
+
+A B C | RESULT
+==============
+0 0 0 | 0
+0 0 1 | 1
+0 1 0 | 1
+0 1 1 | 0
+1 0 0 | 1
+1 0 1 | 1
+1 1 0 | 1
+1 1 1 | 1
 
