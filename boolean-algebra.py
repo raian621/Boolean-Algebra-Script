@@ -11,6 +11,26 @@ def main():
   
   if (len(argv)) >= 2:
     switch[argv[1]]()
+  else:
+    print("(1) Truth Table")
+    print("(2) Equivalence")
+    print("(3) Minterms")
+    print("(4) Maxterms")
+    
+    print("Please pick an option (1-4):", end=" ")
+    choice = int(input());
+    
+    switch2 = {
+      1: "-t",
+      2: "-e",
+      3: "-m",
+      4: "-M"
+    }
+    
+    if choice in switch2.keys():
+      switch[switch2[choice]]()
+    else:
+      print("invalid choice, exiting...")
 
 def truthtable():
   expression = str()
@@ -27,7 +47,7 @@ def truthtable():
       if c not in operands:
         operands[c] = 0;
   
-  print(expression, end="\n\n")
+  print(f"\nExpression: {expression}", end="\n\n")
   
   max_combo = 1 << len(operands)
   sortedOperands = sorted(operands.keys())
@@ -52,19 +72,19 @@ def equivalent():
   exp2 = str();
   
   if (len(argv) == 2):
-    print("Boolean expression 1:", end=" ")
+    print("\nBoolean expression 1:", end=" ")
     exp1 = input()
     print("Boolean expression 2:", end=" ")
     exp2 = input()
   elif(len(argv) == 3):
     exp1 = argv[2]
-    print(f"Boolean expression 1: {exp1}")
+    print(f"\nBoolean expression 1: {exp1}")
     print("Boolean expression 2:", end=" ")
     exp2 = input()
   else:
     exp1 = argv[2]
     exp2 = argv[3]
-    print(f"Boolean expression 1: {exp1}")
+    print(f"\nBoolean expression 1: {exp1}")
     print(f"Boolean expression 2: {exp2}")
   
   print()
@@ -97,9 +117,9 @@ def minterms():
   
   if (len(argv) == 3):
     expression = argv[2]
-    print(f"Expression: {expression}\n")
+    print(f"\nExpression: {expression}\n")
   else:
-    print("Expression", end=" ")
+    print("\nExpression:", end=" ")
     expression = input()
   
   for c in expression:
@@ -113,15 +133,17 @@ def minterms():
   
   print("Sum:m(", end="")
   
+  first = True
   for i in range(max_combo):
     for j in range(len(sortedOperands)):
       operands[sortedOperands[len(sortedOperands) - j - 1]] = (i >> j) & 1
     
     if (evaluate(operands, postfix) == 1):
-      if (i == max_combo - 1):
+      if (first):
         print(i, end=(""))
+        first = False
       else:
-        print(i, end=(", "))
+        print(",", i, end="")
   print(")")
       
 def maxterms():
@@ -130,9 +152,9 @@ def maxterms():
   
   if (len(argv) == 3):
     expression = argv[2]
-    print(f"Expression: {expression}\n")
+    print(f"\nExpression: {expression}\n")
   else:
-    print("Expression", end=" ")
+    print("\nExpression:", end=" ")
     expression = input()
   
   for c in expression:
@@ -144,6 +166,7 @@ def maxterms():
   sortedOperands = sorted(operands.keys())
   postfix = infixToPostfix(expression)
   
+  first = True
   print("Product:M(", end="")
   
   for i in range(max_combo):
@@ -151,10 +174,11 @@ def maxterms():
       operands[sortedOperands[len(sortedOperands) - j - 1]] = (i >> j) & 1
     
     if (evaluate(operands, postfix) == 0):
-      if (i == max_combo - 1):
+      if (first):
         print(i, end=(""))
+        first = False
       else:
-        print(i, end=(", "))
+        print(",", i, end="")
   print(")")
   
 def print_help():
