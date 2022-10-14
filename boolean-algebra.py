@@ -18,7 +18,12 @@ def main():
     print("(4) Maxterms")
     
     print("Please pick an option (1-4):", end=" ")
-    choice = int(input());
+    
+    try:  
+      choice = int(input());
+    except ValueError:
+      print("Invalid choice, exiting...")
+      return
     
     switch2 = {
       1: "-t",
