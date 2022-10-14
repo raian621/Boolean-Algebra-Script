@@ -76,7 +76,7 @@ def equivalent():
   exp1 = str();
   exp2 = str();
   
-  if (len(argv) == 2):
+  if (len(argv) <= 2):
     print("\nBoolean expression 1:", end=" ")
     exp1 = input()
     print("Boolean expression 2:", end=" ")
