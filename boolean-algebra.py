@@ -37,9 +37,10 @@ def main():
     else:
       print("invalid choice, exiting...")
 
+# generates truthtable for a boolean expression
 def truthtable():
-  expression = str()
-  operands = dict()
+  expression = str() # the boolean expression
+  operands = dict()  # holds the values of each operand
   
   if (len(argv) < 3):
     print("Enter boolean expression: ", end = "")
@@ -54,8 +55,12 @@ def truthtable():
   
   print(f"\nExpression: {expression}", end="\n\n")
   
+  # number of binary permutations you can have with
+  # the operands (2 ^ (number of operands))
   max_combo = 1 << len(operands)
+  # used to ensure we access the operand values in alphabetic order
   sortedOperands = sorted(operands.keys())
+  # postfix expression used to evaluate the given boolean expression
   postfix = infixToPostfix(expression)
   
   for operand in sortedOperands:
@@ -73,8 +78,8 @@ def truthtable():
     print("|", evaluate(operands, postfix))
     
 def equivalent():
-  exp1 = str();
-  exp2 = str();
+  exp1 = str(); # boolean expression 1
+  exp2 = str(); # boolean expression 2
   
   if (len(argv) <= 2):
     print("\nBoolean expression 1:", end=" ")
@@ -94,7 +99,8 @@ def equivalent():
   
   print()
   
-  expression = exp1 + "=" + exp2
+  # create equivalence expression for the two expressions
+  expression = "(" + exp1 + ")=(" + exp2 + ")"
   operands = dict()
 
   for c in expression:
@@ -115,7 +121,8 @@ def equivalent():
       return;
   
   print(f"[+] Expression {exp1} and {exp2} are equivalent.")
-  
+
+# generates minterms in decimal shorthand
 def minterms():
   expression = str()
   operands = dict()
@@ -150,7 +157,8 @@ def minterms():
       else:
         print(",", i, end="")
   print(")")
-      
+
+# generates minterms in decimal shorthand
 def maxterms():
   expression = str()
   operands = dict()
@@ -194,6 +202,7 @@ def print_help():
   print("  -M    generate maxterms of an expression")
   print("  -h    show this help text")
 
+# converts an infix boolean expression to a postfix boolean expression
 def infixToPostfix(expression: str) -> str:
   operators = []
   postfix = str()
@@ -201,38 +210,40 @@ def infixToPostfix(expression: str) -> str:
   for i in range(len(expression)):
     c = expression[i]
     
-    if isalpha(c):
+    if isalpha(c): # operands
       postfix += c
       if (i > 0 and (isalpha(expression[i - 1]) or expression[i - 1] in ")\'")):
         operators.append('*')
     
-    elif c in "+*()'^=":
+    elif c in "+*()'^=": # operators
+      # start operator group
       if (c == '('):
         operators.append(c)
       
-      elif (c == '+'):
+      elif (c == '+'): # boolean OR
         if (len(operators) > 0 and operators[len(operators) - 1] in "+*^="):
           postfix += operators.pop()
         operators.append(c)
       
-      elif (c == '*'):
+      elif (c == '*'): # boolean AND
         if (len(operators) > 0 and operators[len(operators) - 1] in "*^="):
           postfix += operators.pop()
         operators.append(c)
         
-      elif c in "^=":
+      elif c in "^=": # boolean XOR or XNOR/equivalence
         if (len(operators) > 0 and operators[len(operators) - 1] in "^="):
           postfix += operators.pop()
         operators.append(c)
-        
-      elif (c == '\''):
+      
+      elif (c == '\''): # negation/inversion/boolean NOT
         postfix += c
-      else: # c = ')'
+      else: # c = ')' end of operator group
         while(len(operators) > 0 and operators[len(operators) - 1] != '('):
           postfix += operators.pop()
         operators.pop()
 
   while(len(operators) > 0):
+    # just in case closing parenthesis were forgotten/not added
     if (operators[len(operators) - 1] != '('):
       postfix += operators.pop()
     else:
@@ -240,6 +251,7 @@ def infixToPostfix(expression: str) -> str:
     
   return postfix
 
+# evaluates a postfix boolean expression
 def evaluate(operands: dict, postfix: str) -> int:  
   values = []
     
