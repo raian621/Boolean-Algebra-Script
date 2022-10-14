@@ -24,7 +24,7 @@ ab         | a*b
 In your terminal of choice, navigate to the directory `boolean-algebra.py` is in and run:
 ```bash
 # option, expression-1, and expression-2 are optional parameters
-python boolean-algebra.py ?[option] ?[expression-1] ?[expression-2]
+python boolean-algebra.py ?[option] ?[expression-1] ??[expression-2]
 ```
 - If no option is specified, the script will print out menu options instead.
 - If an option is specified but no expressions are given, the script will prompt you for boolean expression(s).
@@ -35,6 +35,7 @@ python boolean-algebra.py ?[option] ?[expression-1] ?[expression-2]
 -e   # check if two boolean expressions are equivalent
 -m   # generate shorthand minterm expansion
 -M   # generate shorthand maxterm expansion
+-h   # print helper text
 ```
 **Example: generate truth table for expression `A+B^C`**
 ```
